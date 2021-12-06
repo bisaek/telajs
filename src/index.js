@@ -7,7 +7,8 @@ function tela(selector, options = {}) {
     canvas.height = (options.height == undefined) ? 200 : options.height
 
 
-    const functions = {
+
+    const draw = {
         circle: (x, y, size = 5, color = "black") => {
             ctx.beginPath();
             ctx.arc(x, y, size, 0, Math.PI * 2)
@@ -24,9 +25,10 @@ function tela(selector, options = {}) {
             x: canvas.width / 2,
             y: canvas.height / 2
         },
+        rect: canvas.getBoundingClientRect(),
         mouseDown: false,
         mousePosition: {
-            x:
+            
         }
     }
 
@@ -44,26 +46,30 @@ function tela(selector, options = {}) {
         canvasFunction.mouseDown = true;
         // console.log('hello')
     })
-    canvas.addEventListener('mouseup', (e) => {
+    window.addEventListener('mouseup', (e) => {
         canvasFunction.mouseDown = false;
         // console.log('world')
     })
     //update canvas
     this.update = () => {
-        if (this.updateCode != null) this.updateCode(functions, canvasFunction)
-        
+        this.updateCode(draw, canvasFunction)
         requestAnimationFrame(this.update);
-
     }
+    //mouse move
+    canvas.addEventListener('mousemove', (e) => {
+        canvasFunction.mousePosition.x = e.x - canvasFunction.rect.left
+        canvasFunction.mousePosition.y = e.y - canvasFunction.rect.top
+    })
 
     const self = {
-        setup: (code) => {window.addEventListener('load', (e) => code(functions, canvasFunction)); return self},
-        do: (code) => {code(functions, canvasFunction); return self},
-        click: (code) => {canvas.addEventListener('click', (e) => code(functions, canvasFunction, event(e))); return self},
+        setup: (code) => {window.addEventListener('load', (e) => code(draw, canvasFunction)); return self},
+        do: (code) => {code(draw, canvasFunction); return self},
+        click: (code) => {canvas.addEventListener('click', (e) => code(draw, canvasFunction, event(e))); return self},
         update: (code) => {
             console.log(code)
             this.updateCode = code
             this.update()
+            return self
         }
     }
 
