@@ -5,7 +5,7 @@ let draw = tela('.draw', {
     width: 800,
     height: 500,
 }).update((draw, canvas) => {
-    if(canvas.mouseDown) draw.circle(canvas.mousePosition.x, canvas.mousePosition.y, 10, color, null);
+    if(canvas.mouseDown) draw.circle(canvas.mousePosition.x, canvas.mousePosition.y, 10, color, );
 })
 
 colorInput.addEventListener('change', (e) => {
