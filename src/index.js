@@ -18,14 +18,23 @@ function tela(selector, options = {}) {
 
 
     const draw = {
-        circle: (x, y, size = 5, fillColor = "white", strokeColor = "black") => {
+        circle: (x, y, size = 5, fillColor = "white", strokeColor) => {
             ctx.beginPath();
             ctx.arc(x, y, size, 0, Math.PI * 2)
-            ctx.fillStyle = fillColor;
+            fillColor == null ? ctx.fillStyle = "rgba(0,0,0,0)" : ctx.fillStyle = fillColor
             strokeColor == null ? ctx.strokeStyle = "rgba(0,0,0,0)" : ctx.strokeStyle = strokeColor
             ctx.fill();
             ctx.stroke();
         },
+        line: (start, end, size, color, lineCap) => {
+            ctx.beginPath();
+            ctx.moveTo(start[0], start[1]);
+            ctx.lineTo(end[0], end[1]);
+            ctx.lineWidth = size
+            ctx.strokeStyle = color
+            if(lineCap === 'round') ctx.lineCap = 'round'; 
+            ctx.stroke();
+        }
     }
     const canvasFunction = {
         size: (x, y) => {
