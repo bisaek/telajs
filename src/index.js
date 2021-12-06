@@ -3,17 +3,28 @@ function tela(selector, options = {}) {
     const ctx  = canvas.getContext('2d')
 
     //options
-    canvas.width = (options.width == undefined) ? 200 : options.width
-    canvas.height = (options.height == undefined) ? 200 : options.height
+    if(typeof(options.size) == 'string') {
+        if (options.size === 'full') {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+    } else if(typeof(options.size) == 'number') {
+
+    } else {
+        canvas.width = (options.width == undefined) ? 200 : options.width
+        canvas.height = (options.height == undefined) ? 200 : options.height
+    }
 
 
 
     const draw = {
-        circle: (x, y, size = 5, color = "black") => {
+        circle: (x, y, size = 5, fillColor = "white", strokeColor = "black") => {
             ctx.beginPath();
             ctx.arc(x, y, size, 0, Math.PI * 2)
-            ctx.fillStyle = color;
+            ctx.fillStyle = fillColor;
+            strokeColor == null ? ctx.strokeStyle = "rgba(0,0,0,0)" : ctx.strokeStyle = strokeColor
             ctx.fill();
+            ctx.stroke();
         },
     }
     const canvasFunction = {
